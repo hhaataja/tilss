@@ -1,52 +1,4 @@
 $(document).ready(function(){
-      // Manage lists
-  /*    var myDataRef = new Firebase('https://tilss.firebaseio.com/lists');
-
-      function displayList(list) {
-          var name = list.name();
-          var childData = list.val();
-          $('#listsDiv').append("<div id='listDiv"+name+"'> "+
-               "<h4>"+childData.listname+"<h4/>"+
-               "<ul id='itemsDiv"+name+"'></ul>"+
-               "<input type='text' class='additem' id='additem"+name+"' placeholder='Beer'/>"+
-               "<button id='additemButton"+name+"' type='button' value='"+name+"' class='addItemButton'>add</button><br/></div>");
-
-          $("#additemButton"+name).click(function (e) {
-            var myDataRef = new Firebase('https://tilss.firebaseio.com/lists');
-            var id = e.target.value;
-            var elem = $("#additem"+id);
-            var value = elem.val();
-            myDataRef.child(id).child("items").push({listid: id, item: value});
-          });
-
-          var dataSnapshot = list.child("items");
-          dataSnapshot.forEach(function(itemData) {
-            var name = itemData.name();
-            var item = itemData.val();
-            $("#itemsDiv"+item.listid).append("<li id='"+name+"'>"+item.item+"</li>")
-          });
-      };
-
-
-      $('#listname').keypress(function (e) {
-        if (e.keyCode == 13) {
-          var username = $('#username').val();
-          var listname = $('#listname').val();
-          myDataRef.push({listname: listname, username: username});
-          $('#listname').val('');
-        }
-      });
-
-      myDataRef.on('child_added', function(snapshot) {
-        displayList(snapshot);
-      });
-
-
-      function addItem(list){
-
-      };*/
-
-
   // Knouckout Models and Views //
 
   function ListItemModel(itemData){
@@ -62,8 +14,9 @@ $(document).ready(function(){
     self.listname = ko.observable(snapshot ? snapshot.val().listname : '');
 
     self.items = ko.observableArray();
-    snapshot.child("items").forEach(function(itemData){
-      self.items.push(new ListItemModel(itemData));
+    var myDataRef = new Firebase('https://tilss.firebaseio.com/lists');
+    myDataRef.child(self.listid()).child("items").on('child_added', function(snapshot) {
+      self.items.push(new ListItemModel(snapshot));
     });
 
     self.addNewItem = function(list){
@@ -72,6 +25,7 @@ $(document).ready(function(){
       //self.items.push(newitem);
       var myDataRef = new Firebase('https://tilss.firebaseio.com/lists');
       myDataRef.child(listid).child("items").push({listid: listid, item: newitem});
+      $('#newitem'+list.listid()).val('');
     }
   }
 
