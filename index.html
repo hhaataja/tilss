@@ -10,12 +10,16 @@
     <h2>My lists</h2>
     <div class="list" data-bind='foreach: lists'>
         <div class="listheader">
-            <h4>'<span data-bind='text: listname'></span>' by <span data-bind='text: author'></span></h4>
+            <h4>
+                "<span data-bind='text: listname'></span>" (<span data-bind='text: author'></span>)
+                <button type="button" data-bind="click: $data.deleteList">x</button>
+            </h4>
         </div>
         <div class="itemslist">
             <ul data-bind='foreach: items'>
-                <li>
+                <li data-bind="attr: {id: 'item'+ itemid()}">
                     <span data-bind='text: item()'></span>
+                    <button type="button" data-bind="click: $data.deleteItem">x</button>
                 </li>
             </ul>
         </div>
