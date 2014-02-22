@@ -7,12 +7,28 @@ $(document).ready(function(){
     self.itemid = ko.observable(itemData ? itemData.name() : '');
     self.listid = itemData ? itemData.val().listid : '';
     self.item = ko.observable(itemData ? itemData.val().item : '');
+    self.newitem = ko.observable(itemData ? itemData.val().item : '');
 
-    self.deleteItem = function(item) {
+    self.deleteItem = function(item){
       var listid = item.listid;
       var itemid = item.itemid();
       var myDataRef = new Firebase(DB_REF);
       myDataRef.child(listid).child("items").child(itemid).remove();
+    };
+
+    self.updateItem = function(item){
+      var listid = item.listid;
+      var itemid = item.itemid();
+      var myDataRef = new Firebase(DB_REF);
+      myDataRef.child(listid).child("items").child(itemid).child('item').set(item.newitem());
+      self.toggleEditor(item);
+    };
+
+    self.toggleEditor = function(item){
+      var itemid = item.itemid();
+      $('#item_text'+itemid).toggle();
+      $('#item_edit'+itemid).toggle();
+      $('#item_delete'+itemid).toggle();
     };
   }
 
@@ -30,6 +46,17 @@ $(document).ready(function(){
     var myDataRef = new Firebase(DB_REF);
     myDataRef.child(self.listid()).child("items").on('child_added', function(snapshot) {
       self.items.push(new ListItemModel(snapshot));
+    });
+
+    // List item updated
+    myDataRef.child(self.listid()).child("items").on('child_changed', function(snapshot) {
+      var itemid = snapshot.name();
+      var len = self.items().length;
+      while(len--){
+        if(self.items()[len].itemid() == itemid){
+           self.items()[len].item(snapshot.val().item);
+        }
+      }
     });
 
     // List item deleted

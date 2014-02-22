@@ -15,15 +15,20 @@
                 <button type="button" data-bind="click: $data.deleteList">x</button>
             </h4>
         </div>
-        <div class="itemslist">
+        <div class="items_list">
             <ul data-bind='foreach: items'>
                 <li data-bind="attr: {id: 'item'+ itemid()}">
-                    <span data-bind='text: item()'></span>
-                    <button type="button" data-bind="click: $data.deleteItem">x</button>
+                    <span data-bind="text: item, click: $data.toggleEditor, attr: {id: 'item_text'+ itemid()}"></span>
+                    <div class="item_edit" hidden="hidden" data-bind="attr: {id: 'item_edit'+ itemid()}">
+                        <input data-bind='value: $data.newitem'></input>
+                        <button type="button" data-bind="click: $data.updateItem">OK</button>
+                        <button type="button" data-bind="click: $data.toggleEditor">cancel</button>
+                    </div>
+                    <button type="button" data-bind="click: $data.deleteItem, attr: {id: 'item_delete'+ itemid()}">x</button>
                 </li>
             </ul>
         </div>
-        <div class="itemadd">
+        <div class="item_add">
             <input data-bind="attr: {id: 'newitem'+ listid()}" type='text' placeholder="Add new item..."/>
             <button type="button" data-bind="click: $data.addNewItem">add</button>
             <br /><br />
@@ -37,7 +42,7 @@
 
     <!-- KnockoutJS debug console
     <pre>Knockout debug: </pre>
-    <pre data-bind="text: ko.toJSON($data, null, 2)"></pre> -->
+    <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>  -->
 
     <script src="./js/tilss.js" type="text/javascript" >
     </script>
