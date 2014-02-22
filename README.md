@@ -10,11 +10,11 @@ Two users should be able to collaborate for example on a shopping list. One used
 
 Features 
 -----
--List adding
--List item adding 
--List delete 
--List item delete 
--List item edit 
+- List adding
+- List item adding 
+- List delete 
+- List item delete 
+- List item edit 
 
 -----
 - List edit
