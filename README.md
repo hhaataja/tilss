@@ -16,3 +16,4 @@ Done:
 Todo:
 - List edit
 - Authentication 
+- Nice(r) css
