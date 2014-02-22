@@ -1,8 +1,6 @@
 Tilss
 ======
 
-Simple multi-user list manager app.
-
 Learning project for Firebase DB (https://www.firebase.com/) and KnockoutJS (http://knockoutjs.com/). 
 Goal is to create a simple lists manager app that can be used by multiple persons. 
 Multiple persons should be able to collaborately make changes on a lists and changes to lists 
