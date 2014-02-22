@@ -7,12 +7,12 @@ Multiple persons should be able to collaborately make changes on a lists and cha
 should be propagated to other users in real time.
 
 Done:   
-~~List adding~~  
-~~List item adding~~  
-~~List delete~~  
-~~List item delete~~  
+~~-List adding~~  
+~~-List item adding~~  
+~~-List delete~~  
+~~-List item delete~~  
+~~-List item edit~~ 
 
 Todo:
 - List edit
-- List item edit
 - Authentication 
