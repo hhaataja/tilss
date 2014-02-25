@@ -18,6 +18,6 @@ Features
 
 Todo:
 -----
-- List edit
 - Authentication 
+- List edit
 - Nice(r) css
