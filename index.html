@@ -1,12 +1,17 @@
 <!doctype html>
 <html>
   <head>
-    <script src='https://cdn.firebase.com/v0/firebase.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
-    <script src='http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js'></script>
-      <link rel='stylesheet' type='text/css' href='./css/tilss.css'>
+    <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.2.5/firebase-simple-login.js'></script>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+    <script type='text/javascript' src='https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js'></script>
+    <link rel='stylesheet' type='text/css' href='./css/tilss.css'>
   </head>
   <body>
+    <div id="loginDiv">
+      <!-- <a href="#" onclick="onLoginButtonClicked()" id="login">Login</a> -->
+        <a href="#" data-bind="click: $data.displayLogin" id="login">Login</a>
+    </div>
     <h2>My lists</h2>
     <div class="list" data-bind='foreach: lists'>
         <div class="listheader">

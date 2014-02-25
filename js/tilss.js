@@ -1,7 +1,19 @@
 $(document).ready(function(){
-  // Knouckout Models and Views //
-  var DB_REF = "https://tilss.firebaseio.com/lists";
+  // Firebase configs
+  var myDataRef = new Firebase("https://tilss-db.firebaseio.com/lists");
+  var myUserID = null;
 
+  //Create an Firebase Simple Login client so we can do Facebook auth
+  var auth = new FirebaseSimpleLogin(myDataRef, function(error, user) {
+    if(user) {
+      myUserID = user.id;
+      $("#loginDiv").text(user.first_name + " " + user.last_name);
+    }
+  });
+
+
+
+  // Knouckout Models and Views //
   function ListItemModel(itemData){
     var self = this;
     self.itemid = ko.observable(itemData ? itemData.name() : '');
@@ -12,14 +24,12 @@ $(document).ready(function(){
     self.deleteItem = function(item){
       var listid = item.listid;
       var itemid = item.itemid();
-      var myDataRef = new Firebase(DB_REF);
       myDataRef.child(listid).child("items").child(itemid).remove();
     };
 
     self.updateItem = function(item){
       var listid = item.listid;
       var itemid = item.itemid();
-      var myDataRef = new Firebase(DB_REF);
       myDataRef.child(listid).child("items").child(itemid).child('item').set(item.newitem());
       self.toggleEditor(item);
     };
@@ -43,7 +53,6 @@ $(document).ready(function(){
     // Hook Firebase callbacks
 
     // List item added
-    var myDataRef = new Firebase(DB_REF);
     myDataRef.child(self.listid()).child("items").on('child_added', function(snapshot) {
       self.items.push(new ListItemModel(snapshot));
     });
@@ -73,14 +82,12 @@ $(document).ready(function(){
     self.addNewItem = function(list){
       var listid = list.listid();
       var newitem = $('#newitem'+list.listid()).val();
-      var myDataRef = new Firebase(DB_REF);
       myDataRef.child(listid).child("items").push({listid: listid, item: newitem});
       $('#newitem'+list.listid()).val('');
     };
 
     self.deleteList = function(list){
       var listid = list.listid();
-      var myDataRef = new Firebase(DB_REF);
       myDataRef.child(listid).remove();
     };
   }
@@ -93,7 +100,6 @@ $(document).ready(function(){
     // Hook Firebase callbacks
 
     // New list added
-    var myDataRef = new Firebase(DB_REF);
     myDataRef.on('child_added', function(snapshot) {
       self.lists.push(new ListModel(snapshot));
     });
@@ -114,6 +120,10 @@ $(document).ready(function(){
       var listname = $('#listname').val();
       myDataRef.push({listname: listname, username: username});
       $('#listname').val('');
+    };
+
+    self.displayLogin = function() {
+      auth.login("facebook");
     };
 
   }
