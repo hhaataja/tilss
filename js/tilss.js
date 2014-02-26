@@ -1,21 +1,24 @@
-$(document).ready(function(){
+  var loggedUser = null;
+  var userid = null;
   // Firebase configs
-  var myDataRef = new Firebase("https://tilss-db.firebaseio.com/lists");
-  var myUserID = null;
+  var FIREBASE_ADDR = "https://tilss-db.firebaseio.com";
+  var loginRef = new Firebase(FIREBASE_ADDR);
+  var myDataRef = null;
 
   //Create an Firebase Simple Login client so we can do Facebook auth
-  var auth = new FirebaseSimpleLogin(myDataRef, function(error, user) {
+  var auth = new FirebaseSimpleLogin(loginRef, function(error, user) {
     if(user) {
-      myUserID = user.id;
-      $("#loginDiv").text(user.first_name + " " + user.last_name);
+      loggedUser = user;
+      userid = user.id;
+      $("#loginDiv").text("Logged in as: "+user.first_name + " " + user.last_name+ ", "+user.id);
+      myDataRef = new Firebase(FIREBASE_ADDR+"/"+userid);
+      ko.applyBindings(new AppViewModel(myDataRef));
     }
   });
 
-
-
   // Knouckout Models and Views //
   function ListItemModel(itemData){
-    var self = this;
+     var self = this;
     self.itemid = ko.observable(itemData ? itemData.name() : '');
     self.listid = itemData ? itemData.val().listid : '';
     self.item = ko.observable(itemData ? itemData.val().item : '');
@@ -40,12 +43,12 @@ $(document).ready(function(){
       $('#item_edit'+itemid).toggle();
       $('#item_delete'+itemid).toggle();
     };
-  }
+  };
 
   function ListModel(snapshot) {
     var self = this;
     self.listid = ko.observable(snapshot ? snapshot.name() : '');
-    self.author = ko.observable(snapshot ? snapshot.val().username : '');
+    //self.author = ko.observable(snapshot ? snapshot.val().username : '');
     self.listname = ko.observable(snapshot ? snapshot.val().listname : '');
 
     self.items = ko.observableArray();
@@ -90,22 +93,22 @@ $(document).ready(function(){
       var listid = list.listid();
       myDataRef.child(listid).remove();
     };
-  }
+  };
 
-  function AppViewModel(){
+  var AppViewModel = function(fbRef){
     var self = this;
     self.lists = ko.observableArray();
-    self.username = ko.observable("Jorkki");
+    self.loggedUser = ko.observable(loggedUser ? loggedUser : 'Jorkki');
 
     // Hook Firebase callbacks
 
     // New list added
-    myDataRef.on('child_added', function(snapshot) {
+    fbRef.on('child_added', function(snapshot) {
       self.lists.push(new ListModel(snapshot));
     });
 
     // Lists deleted
-    myDataRef.on('child_removed', function(snapshot) {
+    fbRef.on('child_removed', function(snapshot) {
       var listid = snapshot.name();
       var len = self.lists().length;
       while(len--){
@@ -116,19 +119,16 @@ $(document).ready(function(){
     });
 
     self.addNewList = function(listData){
-      var username = $('#username').val();
+      var myDataRef = new Firebase(FIREBASE_ADDR+"/"+userid);
       var listname = $('#listname').val();
-      myDataRef.push({listname: listname, username: username});
+      myDataRef.push({listname: listname});
       $('#listname').val('');
     };
 
-    self.displayLogin = function() {
+    self.displayLogin = function(){
       auth.login("facebook");
     };
 
-  }
+  };
 
-  // Activates knockout.js
-  ko.applyBindings(new AppViewModel());
 
-});
