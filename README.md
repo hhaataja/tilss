@@ -15,9 +15,11 @@ Features
 - List delete 
 - List item delete 
 - List item edit 
+- Facebook authentication 
 
 Todo:
 -----
-- Authentication 
+- Separate login page
 - List edit
 - Nice(r) css
+- Logout
