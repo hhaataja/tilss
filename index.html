@@ -15,15 +15,15 @@
            Welcome to Tills!
       </h1>
       <div class="lead">
-          Tills is a simple app for writing up lists. Lists can also be collarated on and changes to lists by other users
+          Tills is a simple app for writing down lists. Lists can also be collarated on and changes to lists by other users
           will show up immediatelly. You can for example share a shopping list with your friend. One can for example add items
           on a desktop and the other on mobile.
       </div>
     <div id="loginDiv">
-        <!-- <a href="#" onclick="onLoginButtonClicked()" id="login">Login</a> -->
-        <a href="#" data-bind="click: $data.displayLogin" id="login">Login</a>
+        <a href="#" onclick='auth.login("facebook")' id="login">Login</a>
+        <!--<a href="#" data-bind="click: $data.displayLogin" id="login">Login</a>        -->
     </div>
-    <div id="listsDiv" data-bind='visible: $data.loggedUser'>
+    <div id="listsDiv" data-bind='visible: $data.loggedUser' style='display:none;'>
         <h1>My lists</h1>
         <div class="list" data-bind='foreach: lists'>
             <div class="listheader">
