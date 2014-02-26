@@ -19,7 +19,8 @@ Features
 
 Todo:
 -----
-- Separate login page
 - List edit
-- Nice(r) css
+- Nicer login section
 - Logout
+- Add friends to lists
+- Nice(r) css
