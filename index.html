@@ -9,7 +9,7 @@
     <link rel='stylesheet' type='text/css' href='./css/tilss.css'>
     <title>Tills - Collarate on lists!</title>
   </head>
-  <body>
+  <body class="bg">
     <div class="container">
       <h1>
            Welcome to Tills!
@@ -23,41 +23,52 @@
         <a href="#" onclick='auth.login("facebook")' id="login">Login</a>
         <!--<a href="#" data-bind="click: $data.displayLogin" id="login">Login</a>        -->
     </div>
+    <div class="list-add-new" data-bind='visible: $data.loggedUser' style='display:none'>
+        <h2> Create a new list </h2>
+        <div class="list">
+            <b> Listname </b>&nbsp;
+            <input type='text' id='listname' placeholder=''/>
+            <button type="button" data-bind="click: $data.addNewList">add</button>
+        </div>
+    </div>
+    <div style="clear:both"></div>
     <div id="listsDiv" data-bind='visible: $data.loggedUser' style='display:none;'>
-        <h1>My lists</h1>
-        <div class="list" data-bind='foreach: lists'>
-            <div class="listheader">
-                <h4>
-                    "<span data-bind='text: listname'></span>"
-                    <button type="button" data-bind="click: $data.deleteList">x</button>
+        <h2>My lists</h2>
+         <!-- ko foreach: lists -->
+        <div class="list">
+            <div class="list-header">
+                <h4 class="bold">
+                    <span data-bind='text: listname'></span>
+                    <a href="" class="link-remove" data-bind="click: $data.deleteList"><span class="glyphicon glyphicon-remove" /></a>
+
                 </h4>
             </div>
-            <div class="items_list">
+            <div class="list-items">
                 <ul data-bind='foreach: items' class="list-group">
                     <li data-bind="attr: {id: 'item'+ itemid()}" class="list-group-item">
-                        <span data-bind="text: item, click: $data.toggleEditor, attr: {id: 'item_text'+ itemid()}"></span>
+                        <a href="" data-bind="click: $data.toggleEditor, attr: {id: 'item_text'+ itemid()}" class="list-item--text"><span data-bind="text: item"></span>&nbsp;<span class="glyphicon glyphicon-pencil"/></a>
                         <div class="item_edit" hidden="hidden" data-bind="attr: {id: 'item_edit'+ itemid()}">
                             <input data-bind='value: $data.newitem' class="form-control"></input>
                             <button type="button" data-bind="click: $data.updateItem">OK</button>
                             <button type="button" data-bind="click: $data.toggleEditor">cancel</button>
                         </div>
-                        <button data-bind="click: $data.deleteItem, attr: {id: 'item_delete'+ itemid()}" class="btn btn-danger btn-sm">
+                        <button data-bind="click: $data.deleteItem, attr: {id: 'item_delete'+ itemid()}" class="btn btn-danger btn-sm item-remove">
                             <span class="glyphicon glyphicon-trash"/></button>
                     </li>
                 </ul>
             </div>
             <div class="item_add">
-                <input data-bind="attr: {id: 'newitem'+ listid()}" type='text' placeholder="Add new item..."/>
+                <input data-bind="attr: {id: 'newitem'+ listid()}" type='text' placeholder=""/>
                 <button type="button" data-bind="click: $data.addNewItem">add</button>
                 <br /><br />
             </div>
         </div>
+        <!-- /ko -->
 
-        <h2> Create a new list </h2>
-        <input type='text' id='listname' placeholder='List name'/>
-        <button type="button" data-bind="click: $data.addNewList">add</button>
 
     </div>
+    <div style="clear:both"></div>
+
     </div>
     <!-- KnockoutJS debug console
     <pre>Knockout debug: </pre>
