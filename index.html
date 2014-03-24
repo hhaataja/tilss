@@ -5,23 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='./css/tilss.css'>
     <title>Tills - Collarate on lists!</title>
   </head>
   <body class="bg">
     <div class="container">
-      <h1>
-           Welcome to Tills!
+      <h1 class="logo">
+           Tills!
       </h1>
-      <div class="lead">
+      <div class="lead" data-bind="visible: !$data.loggedUser">
           Tills is a simple app for writing down lists. Lists can also be collarated on and changes to lists by other users
           will show up immediatelly. You can for example share a shopping list with your friend. One can for example add items
           on a desktop and the other on mobile.
       </div>
-    <div id="loginDiv">
-        <a href="#" onclick='auth.login("facebook")' id="login">Login</a>
-        <!--<a href="#" data-bind="click: $data.displayLogin" id="login">Login</a>        -->
+    <div id="loginDiv" data-bind="visible: !$data.loggedUser">
+        <a href="#" onclick='auth.login("facebook")' id="login">Login with Facebook</a>
+    </div>
+    <div id="logoutDiv" data-bind="visible: $data.loggedUser" style="display:none">
+         <span data-bind="visible: $data.loggedUser, text: $data.loggedUser().name"></span> <a href="#" data-bind="click: logout, visible: $data.loggedUser" id="logout">Logout</a>
     </div>
     <div class="list-add-new" data-bind='visible: $data.loggedUser' style='display:none'>
         <h2> Create a new list </h2>

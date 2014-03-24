@@ -10,7 +10,6 @@
     if(user) {
       loggedUser = user;
       userid = user.id;
-      $("#loginDiv").text("Logged in as: "+user.first_name + " " + user.last_name+ ", "+user.id);
       myDataRef = new Firebase(FIREBASE_ADDR+"/"+userid);
       ko.applyBindings(new AppViewModel(myDataRef));
     }
@@ -127,6 +126,10 @@
 
     self.displayLogin = function(){
       auth.login("facebook");
+    };
+
+    self.logout = function(){
+      auth.logout();
     };
 
   };
