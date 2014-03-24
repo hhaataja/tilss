@@ -24,3 +24,8 @@ Todo:
 - Logout
 - Add friends to lists
 - Nice(r) css
+
+UI at it's current form:
+-----
+
+![alt tag](img/Tills-preview.png)
